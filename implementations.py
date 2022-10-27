@@ -233,7 +233,7 @@ def reg_logistic_regression(y, tx,lambda_, initial_w, max_iters, gamma):
         grad = compute_ridge_log_gradient(y, tx, w, lambda_)
         w = w - gamma * grad
     
-    loss = ridge_cross_entropy(y, tx, w)
+    loss = ridge_cross_entropy(y, tx, w, lambda_)
     return w,loss
 
 
