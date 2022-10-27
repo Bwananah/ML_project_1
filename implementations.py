@@ -175,7 +175,7 @@ def ridge_regression(y, tx, lambda_):
     return w, loss
 
 def sigmoid(x,w):
-    return 1/(1 + np.exp(- np.sum(x * w)))
+    return 1/(1 + np.exp(-x @ w)
 
 
 def cross_entropy(y,tx,w):
@@ -196,24 +196,53 @@ def compute_ridge_log_gradient(y,tx,w,l):
     return (1/len(tx)) * np.dot(tx.T, sigm(tx) - y) + l*2*np.sum(w)
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    loss = []
+    """Compute logistic regression using gradient descent
+
+    Args:
+        y: numpy array of shape (N,), N is the number of samples.
+        tx: numpy array of shape (N,D), D is the number of features.
+        initial_w: numpy array of shape(D,)
+        max_iters: initger
+        gamma: scalar
+
+    Returns:
+        w: optimal weights, numpy array of shape(D,), D is the number of features.
+        loss : the MSE loss for the model parameters w.r. to y and tx
+    """
+
+    loss = 0
     w = initial_w
     for n_iter in range(max_iters):
-        loss.append(cross_entropy(y, tx, w))
+        loss = cross_entropy(y, tx, w)
         grad = compute_log_gradient(y, tx, w)
         w = w - gamma * grad
         
-    return w,loss[-1]
+    return w,loss
         
 def reg_logistic_regression(y, tx,lambda_, initial_w, max_iters, gamma):
-    loss = []
+    """Compute logistic regression using regualrized gradient descent
+
+    Args:
+        y: numpy array of shape (N,), N is the number of samples.
+        tx: numpy array of shape (N,D), D is the number of features.
+        lambda_: scalar.
+        initial_w: numpy array of shape(D,)
+        max_iters: initger
+        gamma: scalar
+
+    Returns:
+        w: optimal weights, numpy array of shape(D,), D is the number of features.
+        loss : the MSE loss for the model parameters w.r. to y and tx
+    """
+
+    loss = 0
     w = initial_w
     for n_iter in range(max_iters):
-        loss.append(cross_entropy(y, tx, w))
-        grad = compute_ridge_log_gradient(y, tx, w, l)
+        loss = cross_entropy(y, tx, w)
+        grad = compute_ridge_log_gradient(y, tx, w, lambda_)
         w = w - (gamma * grad) / np.linalg.norm(grad)
 
-    return w,loss[-1]
+    return w,loss
 
 
 
