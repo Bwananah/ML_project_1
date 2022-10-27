@@ -187,7 +187,7 @@ def compute_log_gradient(y, tx, w):
     return (tx.T@(sigmoid(tx, w)-y))/y.shape[0]
 
 def compute_ridge_log_gradient(y,tx,w,l):
-    return (tx.T@(sigmoid(tx, w)-y))/y.shape[0] + l*2*np.sum(w)
+    return (tx.T@(sigmoid(tx, w)-y))/y.shape[0] #+ l*2*np.sum(w)
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
     """Compute logistic regression using gradient descent
