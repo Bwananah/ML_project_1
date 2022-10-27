@@ -56,7 +56,7 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         w = w - gamma * gradient
     
     loss = compute_loss(y, tx, w)
-    return w, loss[0]
+    return w, loss[0][0]
 
 
 def compute_stoch_gradient(y, tx, w):
@@ -125,7 +125,7 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
             loss = compute_loss(minibatch_y, minibatch_tx, w)
             gradient = compute_stoch_gradient(minibatch_y, minibatch_tx, w)
             w = w - gamma * gradient
-    return w, loss[0]
+    return w, loss[0][0]
 
 
 def least_squares(y, tx):
@@ -146,7 +146,7 @@ def least_squares(y, tx):
 
     loss = compute_loss(y, tx, w)
 
-    return w, loss[0]
+    return w, loss[0][0]
 
 def ridge_regression(y, tx, lambda_):
     """Compute ridge regression using normal equations
@@ -171,4 +171,4 @@ def ridge_regression(y, tx, lambda_):
     
     loss = compute_loss(y, tx, w) # + lambda_*np.sum(w**2)
     
-    return w, loss[0]
+    return w, loss[0][0]
