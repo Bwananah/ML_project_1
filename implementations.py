@@ -175,7 +175,7 @@ def ridge_regression(y, tx, lambda_):
     return w, loss
 
 def sigmoid(x,w):
-    return 1/(1 + np.exp(-x @ w)
+    return 1/(1 + np.exp(-x @ w))
 
 
 def cross_entropy(y,tx,w):
