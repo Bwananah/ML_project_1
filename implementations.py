@@ -122,9 +122,9 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         for minibatch_y, minibatch_tx in batch_iter(y, tx, batch_size=1):
-            loss = compute_loss(minibatch_y, minibatch_tx, w)
             gradient = compute_stoch_gradient(minibatch_y, minibatch_tx, w)
             w = w - gamma * gradient
+            loss = compute_loss(minibatch_y, minibatch_tx, w)
     return w, loss
 
 
@@ -169,6 +169,6 @@ def ridge_regression(y, tx, lambda_):
     b = tx.T@y
     w = np.linalg.solve(A, b)
     
-    loss = compute_loss(y, tx, w) # + lambda_*np.sum(w**2)
+    loss = compute_loss(y, tx, w)
     
     return w, loss
