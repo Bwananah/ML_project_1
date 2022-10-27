@@ -179,21 +179,18 @@ def sigmoid(x,w):
 
 
 def cross_entropy(y,tx,w):
-    sigm = lambda x: 1 + np.exp(np.dot(x,w))
-    return  (-1/len(tx)) * (np.sum(y * np.dot(tx,w) - np.log(sigm(tx))))
+    return -np.sum(y*np.log(sigmoid(tx, w)) + (1 - y)*np.log(1 - sigmoid(tx, w))) / y.shape[0]
 
 
 def ridge_cross_entropy(y,tx,w,l):
     sigm = lambda x: 1 + np.exp(np.dot(x,w))
-    return np.linalg.norm(w)**2 * l + ((1/len(tx)) * np.sum(y * np.dot(tx,w) + np.log(sigm(tx))))
+    return np.linalg.norm(w)**2 * l - (np.sum(y*np.log(sigmoid(tx, w)) + (1 - y)*np.log(1 - sigmoid(tx, w))) / y.shape[0])
 
 def compute_log_gradient(y, tx, w):
-    sigm = lambda x: sigmoid(x,w)
-    return (1/len(tx)) * np.dot(tx.T, sigm(tx) - y)
+    return (tx.T@(sigmoid(tx, w)-y))/y.shape[0]
 
 def compute_ridge_log_gradient(y,tx,w,l):
-    sigm = lambda x: sigmoid(x,w)
-    return (1/len(tx)) * np.dot(tx.T, sigm(tx) - y) + l*2*np.sum(w)
+    return (tx.T@(sigmoid(tx, w)-y))/y.shape[0] + l*2*np.sum(w)
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
     """Compute logistic regression using gradient descent
