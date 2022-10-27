@@ -15,7 +15,7 @@ def compute_loss(y, tx, w):
     e = y - tx@w
     n = y.shape[0]
     
-    return e.T@e/(2*n)
+    return e.T@e/(2*n)[0]
 
 
 def compute_gradient(y, tx, w):
