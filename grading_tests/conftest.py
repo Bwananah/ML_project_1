@@ -24,7 +24,7 @@ def pytest_configure(config):
 
 @pytest.fixture(scope="session")
 def github_repo_path() -> pathlib.Path:
-    workdir = pathlib.Path("github_workdir")
+    workdir = pathlib.path("github_workdir").resolve()
 
     # Support giving a directory path instead of github link
     if not GITHUB_LINK.startswith("https://"):
