@@ -177,13 +177,10 @@ def ridge_regression(y, tx, lambda_):
 def sigmoid(x,w):
     return 1/(1 + np.exp(-x @ w))
 
-
 def cross_entropy(y,tx,w):
     return -np.sum(y*np.log(sigmoid(tx, w)) + (1 - y)*np.log(1 - sigmoid(tx, w))) / y.shape[0]
 
-
 def ridge_cross_entropy(y,tx,w,l):
-    sigm = lambda x: 1 + np.exp(np.dot(x,w))
     return np.linalg.norm(w)**2 * l - (np.sum(y*np.log(sigmoid(tx, w)) + (1 - y)*np.log(1 - sigmoid(tx, w))) / y.shape[0])
 
 def compute_log_gradient(y, tx, w):
@@ -207,13 +204,12 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         loss : the MSE loss for the model parameters w.r. to y and tx
     """
 
-    loss = 0
     w = initial_w
     for n_iter in range(max_iters):
-        loss = cross_entropy(y, tx, w)
         grad = compute_log_gradient(y, tx, w)
         w = w - gamma * grad
-        
+    
+    loss = cross_entropy(y, tx, w)
     return w,loss
         
 def reg_logistic_regression(y, tx,lambda_, initial_w, max_iters, gamma):
@@ -232,13 +228,12 @@ def reg_logistic_regression(y, tx,lambda_, initial_w, max_iters, gamma):
         loss : the MSE loss for the model parameters w.r. to y and tx
     """
 
-    loss = 0
     w = initial_w
     for n_iter in range(max_iters):
-        loss = cross_entropy(y, tx, w)
         grad = compute_ridge_log_gradient(y, tx, w, lambda_)
-        w = w - (gamma * grad) / np.linalg.norm(grad)
-
+        w = w - gamma * grad
+    
+    loss = cross_entropy(y, tx, w)
     return w,loss
 
 
