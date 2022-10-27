@@ -52,9 +52,10 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     # Define parameters to store w and loss
     w = initial_w
     for n_iter in range(max_iters):
-        loss = compute_loss(y, tx, w)
         gradient = compute_gradient(y, tx, w)
         w = w - gamma * gradient
+    
+    loss = compute_loss(y, tx, w)
     return w, loss
 
 
@@ -120,10 +121,6 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     # Define parameters to store w and loss
     w = initial_w
     for n_iter in range(max_iters):
-        # ***************************************************
-        # INSERT YOUR CODE HERE
-        # TODO: implement stochastic gradient descent.
-        # ***************************************************
         for minibatch_y, minibatch_tx in batch_iter(y, tx, batch_size=1):
             loss = compute_loss(minibatch_y, minibatch_tx, w)
             gradient = compute_stoch_gradient(minibatch_y, minibatch_tx, w)
@@ -149,27 +146,7 @@ def least_squares(y, tx):
 
     loss = compute_loss(y, tx, w)
 
-    return (w, loss)
-
-def least_squares(y, tx):
-    """Calculate the optimal vector w from the least squares regression, using the normal equations
-    
-    Args:
-        y: numpy array of shape=(N, )
-        tx: numpy array of shape=(N, M)
-        
-    Returns:
-        w: the optimal model parameters resulting from the least squares regression
-        loss: the MSE loss for the model parameters w.r. to y and tx
-    """
-    # Normal equations : w* = inverse(tx.T @ tx) @ tx.T @ y -> (tx.T @ tx) @ w* = tx.T @ y
-    A = tx.T@tx
-    b = tx.T@y
-    w = np.linalg.solve(A, b) # Aw = b
-    
-    loss = compute_loss(y, tx, w)
-    
-    return (w, loss)
+    return w, loss
 
 def ridge_regression(y, tx, lambda_):
     """Compute ridge regression using normal equations
@@ -192,6 +169,6 @@ def ridge_regression(y, tx, lambda_):
     b = tx.T@y
     w = np.linalg.solve(A, b)
     
-    loss = compute_loss(y, tx, w) + lambda_*np.sum(w**2)
+    loss = compute_loss(y, tx, w) # + lambda_*np.sum(w**2)
     
-    return (w, loss)
+    return w, loss
